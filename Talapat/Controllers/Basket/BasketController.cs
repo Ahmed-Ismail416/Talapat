@@ -14,7 +14,7 @@ namespace Talapat.Controllers.Basket
         {
             _BasketRepo = BasketRepo;
         }
-
+        //Get Customer Basket
         [HttpGet]
         public async Task<ActionResult<CustomerBasket>> GetCustomerBasket(string BasketId)
         {
@@ -23,7 +23,7 @@ namespace Talapat.Controllers.Basket
                 return null;
             return Ok(CustomerBasket);
         }
-
+        // Update or Create Customer Basket
         [HttpPost]
         public async Task<ActionResult<CustomerBasket>> UpdateCustomerBasket(CustomerBasket basket)
         {
@@ -32,7 +32,7 @@ namespace Talapat.Controllers.Basket
                 return BadRequest(new ApiResponse(400));
             return UpdatedOrCreated;
         }
-
+        // Delete Customer Basket
         [HttpDelete]
         public async Task<ActionResult<bool>> DeleteCustomerBaskte(string BasketId)
         {
