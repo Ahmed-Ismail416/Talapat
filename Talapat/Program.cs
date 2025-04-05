@@ -1,9 +1,12 @@
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
 using TalabatCore.Entities;
+using TalabatCore.Entities.Identity;
 using TalabatCore.Repositories;
 using TalabatRepository;
 using TalabatRepository.Data;
@@ -40,6 +43,7 @@ namespace Talapat
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplicationServices();
+            builder.Services.AddIdentityServices(builder.Configuration);
             #endregion
 
 
@@ -59,6 +63,8 @@ namespace Talapat
                 // Ask CLR to Create Object From Dbcontext excplicity
                 await dbcontext.Database.MigrateAsync();
                 await identityContext.Database.MigrateAsync();
+                var username = Services.GetRequiredService<UserManager<AppUser>>();
+                await IdentityDbContextSeed.SeedUserAsync(username);
                 await StoreContextSeed.SeedAsync(dbcontext);
             }
             catch(Exception ex)

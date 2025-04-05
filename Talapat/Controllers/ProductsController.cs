@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TalabatCore.Entities;
@@ -28,6 +29,7 @@ namespace Talapat.Controllers
         public IGenericRepository<ProductBrand> _GenericRepositoryBrands { get; }
         public IGenericRepository<ProductType> _GenericRepositoryTypes { get; }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<Pagination<ProductToReturnDto>>>> GetProducts([FromQuery]ProductSpecParams Params)
         {
