@@ -31,6 +31,7 @@ namespace Talapat
             {
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            // DbContext
             builder.Services.AddDbContext<StoreContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"))
@@ -66,8 +67,13 @@ namespace Talapat
                 // Ask CLR to Create Object From Dbcontext excplicity
                 await dbcontext.Database.MigrateAsync();
                 await identityContext.Database.MigrateAsync();
+
+                //Getting Service for Seeding Data
                 var username = Services.GetRequiredService<UserManager<AppUser>>();
+                var roleManager = Services.GetRequiredService<RoleManager<AppRole>>();
+                // Seed DataBase With Intitail Data
                 await IdentityDbContextSeed.SeedUserAsync(username);
+                await IdentityDbContextSeed.SeedRoleAsync(roleManager);
                 await StoreContextSeed.SeedAsync(dbcontext);
             }
             catch(Exception ex)

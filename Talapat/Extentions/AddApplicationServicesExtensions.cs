@@ -11,6 +11,7 @@ namespace Talapat.Extentions
             Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericReposatory<>));
             Services.AddScoped<IBasketRepositories, BasketRepositories>();
             Services.AddAutoMapper(typeof(ProductProfile));
+            
             return Services;
         }
 
