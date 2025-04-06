@@ -100,12 +100,12 @@ namespace Talapat.Controllers.Authentication
         [HttpGet("Address")]
         public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
-            var user = await _UserManager.FindUserWithAddressAsync(User);
-            var MappedAddress = _mapper.Map<Address, AddressDto>(user.Address);
             //var email = User.FindFirstValue(ClaimTypes.Email);
             //var user = await _UserManager.Users.FirstOrDefaultAsync(x => x.Email == email);
-
             //return Ok(user);
+
+            var user = await _UserManager.FindUserWithAddressAsync(User);
+            var MappedAddress = _mapper.Map<Address, AddressDto>(user.Address);
             return (MappedAddress);
         }
 

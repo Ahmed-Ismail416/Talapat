@@ -14,9 +14,13 @@ namespace Talapat.Extentions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
+            //Token Services
             services.AddScoped<ITokenService, TokenServices>();
-            services.AddIdentity<AppUser, IdentityRole>()
+
+            // Identity
+            services.AddIdentity<AppUser, AppRole>()
                     .AddEntityFrameworkStores<AppIdentityDbContext>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

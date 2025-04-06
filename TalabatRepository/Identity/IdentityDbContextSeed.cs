@@ -22,8 +22,30 @@ namespace TalabatRepository.Identity
                     UserName = "AhmedIsmial416",
                     PhoneNumber = "01012345678",
                 };
-                usermanager.CreateAsync(user, "Pa$$w0rd");   
+                 usermanager.CreateAsync(user, "Pa$$w0rd");   
             }
+        }
+        public static async Task SeedRoleAsync(RoleManager<AppRole> rolemanager)
+        {
+           if(!rolemanager.Roles.Any())
+           {
+                var Role = new AppRole()
+                {
+                    Name = "Admin",
+                    NormalizedName = "Admin".ToUpper(),
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                };
+                
+                var Role2 = new AppRole()
+                {
+                    Name = "User",
+                    NormalizedName = "User".ToUpper(),
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                };
+                await rolemanager.CreateAsync(Role);
+                await rolemanager.CreateAsync(Role2);
+           }
+
         }
     }
 }
