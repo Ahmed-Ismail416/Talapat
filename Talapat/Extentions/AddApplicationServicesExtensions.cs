@@ -1,5 +1,9 @@
 ﻿using TalabatCore.Repositories;
+using TalabatCore.Services;
+using TalabatCore.Services.IUnitOfWork;
 using TalabatRepository;
+using TalabatRepository.UnitOfWork;
+using TalabatService;
 using Talapat.Helpers;
 
 namespace Talapat.Extentions
@@ -10,6 +14,8 @@ namespace Talapat.Extentions
         {
             Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericReposatory<>));
             Services.AddScoped<IBasketRepositories, BasketRepositories>();
+            Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            Services.AddScoped<IOrderService, OrderService>();
             Services.AddAutoMapper(typeof(ProductProfile));
             
             return Services;

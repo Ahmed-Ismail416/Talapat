@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TalabatCore.Entities;
+using TalabatCore.Entities.Order;
 
 namespace TalabatRepository.Data
 {
@@ -20,6 +21,8 @@ namespace TalabatRepository.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Apply configurations from the assembly
+            // This will automatically apply all configurations that implement IEntityTypeConfiguration
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
@@ -27,5 +30,9 @@ namespace TalabatRepository.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<ProductBrand> productBrands { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
+
     }
 }
