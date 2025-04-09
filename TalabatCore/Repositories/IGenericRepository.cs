@@ -13,6 +13,9 @@ namespace TalabatCore.Repositories
         #region Old Way Without Specification
         public Task<IReadOnlyList<T>> GetAllAsync();
         public Task<T> GetbyIdAsync(int id);
+        public Task AddAsync(T entity);
+        public void Update(T entity);
+        public void Delete(T entity);
         #endregion
 
 
@@ -22,6 +25,7 @@ namespace TalabatCore.Repositories
 
         //Pagination Count
         public Task<int> GetCountWithSpecAsync(ISpecification<T> spec);
+        
         #endregion
 
     }

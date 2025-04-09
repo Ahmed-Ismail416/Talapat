@@ -31,6 +31,16 @@ namespace TalabatRepository
         }
         public async Task<T> GetbyIdAsync(int id)
         => await _dbcontext.Set<T>().FindAsync(id);
+        public async Task AddAsync(T entity)
+        => await _dbcontext.Set<T>().AddAsync(entity);
+
+        public void Update(T entity)
+        => _dbcontext.Set<T>().Update(entity);
+
+        public void Delete(T entity)
+        => _dbcontext.Set<T>().Remove(entity);
+
+
         #endregion
 
 
@@ -57,6 +67,10 @@ namespace TalabatRepository
         {
             return ApplySpecification(spec).CountAsync();
         }
+
+
+
+
         #endregion
     }
 }
