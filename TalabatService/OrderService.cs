@@ -9,6 +9,7 @@ using TalabatCore.Entities;
 using TalabatCore.Entities.Order;
 using TalabatCore.Repositories;
 using TalabatCore.Services;
+using TalabatCore.Services.IPayment;
 using TalabatCore.Services.IUnitOfWork;
 using TalabatCore.Specification.OrderSpec;
 
@@ -16,16 +17,16 @@ namespace TalabatService
 {
     public class OrderService : IOrderService
     {
-        public OrderService(IBasketRepositories BasketRepo, IUnitOfWork UnitOfWork)
+        public OrderService(IBasketRepositories BasketRepo, IUnitOfWork UnitOfWork, IPaymentService paymentservice)
         {
             this._BasketRepo = BasketRepo;
             this._UnitOfWork = UnitOfWork;
-            
+            _Paymentservice = paymentservice;
         }
 
         public IBasketRepositories _BasketRepo { get; }
         public IUnitOfWork _UnitOfWork { get; }
-
+        public IPaymentService _Paymentservice { get; }
 
         public async Task<Order> CreateOrderAsync(string BuyerEmail, string BasketId, int DelvieryMethodId, Address ShippingAddress)
         {
@@ -47,7 +48,15 @@ namespace TalabatService
             // Get Delivery Method
             var DeliveryMethod =await _UnitOfWork.Repostiory<DeliveryMethod>().GetbyIdAsync(DelvieryMethodId);
             // Create Order
-            var Order = new Order(BuyerEmail, ShippingAddress, DeliveryMethod, OrderItems, Subtotal);
+            var spec = new OrderPaymentIdSpec(Basket.PaymentIntentId);
+            var ExOrder = await _UnitOfWork.Repostiory<Order>().GetEntityWithSpecAsync(spec);
+            if(ExOrder != null)
+            {
+                // Order Already Exist
+                _UnitOfWork.Repostiory<Order>().Delete(ExOrder);
+                await _Paymentservice.CreateOrUpdatePaymentIntent(BasketId);
+            }
+            var Order = new Order(BuyerEmail, ShippingAddress, DeliveryMethod, OrderItems, Subtotal, Basket.PaymentIntentId);
             // Add Order Locally
             await _UnitOfWork.Repostiory<Order>().AddAsync(Order);
             // Add Order to DB 
@@ -62,7 +71,7 @@ namespace TalabatService
         public Task<Order> GetOrderByIdForSpecificUserAsync(string buyerEmail, int OrderId)
         {
             var spec = new OrderSpecification(buyerEmail, OrderId);
-            var Order = _UnitOfWork.Repostiory<Order>().GetbyIdWithSpecAsync(spec);
+            var Order = _UnitOfWork.Repostiory<Order>().GetEntityWithSpecAsync(spec);
             return Order;
 
         }

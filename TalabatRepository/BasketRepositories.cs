@@ -32,13 +32,13 @@ namespace TalabatRepository
 
         }
 
-        public Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket)
+        public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket basket)
         {
             var JsonBasket = JsonSerializer.Serialize(basket);
-            var CreatedOrUpdated = _DataBase.StringSetAsync(basket.Id, JsonBasket, TimeSpan.FromDays(1));
-            if(CreatedOrUpdated.IsCompletedSuccessfully)
+            var CreatedOrUpdated = await _DataBase.StringSetAsync(basket.Id, JsonBasket, TimeSpan.FromDays(1));
+            if(CreatedOrUpdated)
             {
-                return GetBasketAsync(basket.Id);
+                return await GetBasketAsync(basket.Id);
             }
             return null;
         }

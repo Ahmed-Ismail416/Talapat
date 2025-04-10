@@ -43,10 +43,18 @@ namespace Talapat
 
             }
             );
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddApplicationServices();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", options =>
+                {
+                    options.AllowAnyHeader().AllowAnyMethod().WithOrigins(builder.Configuration["FrontBaseUrl"]);
+                });
+            });
             builder.Services.AddIdentityServices(builder.Configuration);
             #endregion
 
@@ -94,7 +102,7 @@ namespace Talapat
             app.UseStaticFiles();
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseHttpsRedirection();
-
+            app.UseCors("MyPolicy");
             app.UseAuthorization();
 
             app.MapControllers();
@@ -103,6 +111,8 @@ namespace Talapat
             app.Run();
 
         }
+
+       
     }
     
 }

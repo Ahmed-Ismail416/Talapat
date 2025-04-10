@@ -29,7 +29,7 @@ namespace Talapat.Controllers.Basket
         {
             var UpdatedOrCreated = await _BasketRepo.UpdateBasketAsync(basket);
             if (UpdatedOrCreated is null)
-                return BadRequest(new ApiResponse(400));
+                return BadRequest(new ApiResponse(400, "Cant Create Or Update"));
             return UpdatedOrCreated;
         }
         // Delete Customer Basket
