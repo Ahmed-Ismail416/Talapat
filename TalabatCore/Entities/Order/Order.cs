@@ -12,13 +12,14 @@ namespace TalabatCore.Entities.Order
         {
             
         }
-        public Order(string buyerEmail, Address shippingAddress, DeliveryMethod deliveryMethod, IReadOnlyList<OrderItem> items, decimal subtotal)
+        public Order(string buyerEmail, Address shippingAddress, DeliveryMethod deliveryMethod, IReadOnlyList<OrderItem> items, decimal subtotal, string paymentIntentId)
         {
             BuyerEmail = buyerEmail;
             ShippingAddress = shippingAddress;
             DeliveryMethod = deliveryMethod;
             Items = items;
             Subtotal = subtotal;
+            PaymentIntentId = paymentIntentId;
         }
 
         public string BuyerEmail { get; set; }
@@ -34,7 +35,7 @@ namespace TalabatCore.Entities.Order
         public IReadOnlyList<OrderItem> Items { get; set; } = new List<OrderItem>();
         public decimal Subtotal { get; set; }
         public decimal Total => Subtotal + DeliveryMethod.Cost;
-        public string PaymentIntentId { get; set; } = string.Empty;
+        public string PaymentIntentId { get; set; }
 
 
 

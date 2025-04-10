@@ -57,7 +57,7 @@ namespace Talapat.Controllers
         public async Task<ActionResult<Product>> GetProductById(int id)
         {
             var spec = new ProductWithBrandAndTypeSpecification(id);
-            var product = await _GenericRepository.GetbyIdWithSpecAsync(spec);
+            var product = await _GenericRepository.GetEntityWithSpecAsync(spec);
             if(product is null)
                 return NotFound(new ApiResponse(404));
             var ProductDto = _Mapper.Map<Product,ProductToReturnDto>(product);

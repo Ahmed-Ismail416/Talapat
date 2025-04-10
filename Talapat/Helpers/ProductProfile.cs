@@ -5,6 +5,8 @@ using Talapat.DTOs;
 using Talapat.DTOs.Role;
 using TalabatCore.Entities.Order;
 using Talapat.DTOs.Order;
+using TalabatCore.Entities.Basket;
+using Talapat.DTOs.Basket;
 
 namespace Talapat.Helpers
 {
@@ -30,6 +32,8 @@ namespace Talapat.Helpers
                 .ForMember(o => o.ProductName, opt => opt.MapFrom(o => o.Product.ProductName))
                 .ForMember(o => o.PictureUrl, opt => opt.MapFrom(o => o.Product.PictureUrl))
                 .ForMember(o => o.PictureUrl, opt => opt.MapFrom<OrderItemPictureUrlResolver>());
+
+            CreateMap<CustomerBasket, CustomerBasketDto>();
         }
     }
 }

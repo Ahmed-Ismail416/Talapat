@@ -21,7 +21,7 @@ namespace TalabatCore.Repositories
 
         #region New Way With Specification
         public Task<IReadOnlyList<T>> GetAllWithSpecAsync( ISpecification<T> spec);
-        public Task<T> GetbyIdWithSpecAsync(ISpecification<T> spec);
+        public Task<T> GetEntityWithSpecAsync(ISpecification<T> spec);
 
         //Pagination Count
         public Task<int> GetCountWithSpecAsync(ISpecification<T> spec);

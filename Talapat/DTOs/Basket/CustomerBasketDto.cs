@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using TalabatCore.Entities.Basket;
 
-namespace TalabatCore.Entities.Basket
+namespace Talapat.DTOs.Basket
 {
-    public class CustomerBasket
+    public class CustomerBasketDto
     {
-        public CustomerBasket()
-        {
-            
-        }
+        [Required]
         public string Id { get; set; }
         public List<BasketItems> Items { get; set; }
 
         public string? PaymentIntentId { get; set; }
         public string? ClientSecret { get; set; }
         public int? DelvieryMethodId { get; set; }
-        
     }
 }
